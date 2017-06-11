@@ -2,26 +2,27 @@ var request = require('request');
 
 var tokenize = function(key, secret, token, callback) {
 
+	if(!token){
+		console.log("Error: no token provided");
+		return callback({error: "no token provided"}, null)
+	}
+
 	var options = {
 	  url: 'http://api.connextapi.com/tokenize/',
 	  method: 'POST',
 	  json: true,
 	  body: {
 	  	"token": token,
-	  	"key": key,
-	  	"secret": secret
 	  },
 	  headers: {
-	    'Authentication': secret
+	    'Authentication': key:secret
 	  }
 	};
 
 	request(options, function(error, response, body) {
-		token = body.token;
 		if(!error && response.statusCode == 200) {
-			token.cardnumber = "****************";
-			callback(token);
-		} else console.log(error);
+			callback(error, body);
+		} else console.log(error, null);
 	})
 }
 

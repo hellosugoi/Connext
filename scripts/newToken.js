@@ -15,7 +15,7 @@ var newToken = function(callback) {
 		country: ""
 	}
 
-	callback(token);
+	callback(null, token);
 }
 
 module.exports = newToken;

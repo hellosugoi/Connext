@@ -7,11 +7,9 @@ var validateKey = function(key, secret, callback) {
 		method: 'POST',
 		json: true,
 		body: {
-	  		"key": key,
-	  		"secret": secret
 	  	},
 	  	headers: {
-	    	'Authentication': secret
+	    	'Authentication': key:secret
 	  	}
 	};
 
