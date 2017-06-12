@@ -1,4 +1,4 @@
-var request = require('request');
+ var request = require('request');
 
 var getKey = function(email, password, callback) {
 
@@ -13,10 +13,11 @@ var getKey = function(email, password, callback) {
 	}
 
 	var options = {
-	  url: 'http://api.connextapi.com/getKey/',
+	  url: 'http://api.connextapi.com:3000/getKey/',
 	  json: true,
-	  headers: {
-	    'Authorization': password:email
+	  body: {
+	  	"key": email,
+	  	"secret": password
 	  }
 	};
 

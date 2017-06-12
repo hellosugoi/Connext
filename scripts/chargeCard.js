@@ -13,15 +13,14 @@ var chargeCard = function(key, secret, token, amount, callback) {
 	}
 
 	var options = {
-	  url: 'http://api.connextapi.com/chargeCard/',
+	  url: 'http://api.connextapi.com:3000/chargeCard/',
 	  method: 'POST',
 	  json: true,
 	  body: {
 	  	"token": token,
-	  	"amount": amount
-	  },
-	  headers: {
-	    'Authorization': key:secret
+	  	"amount": amount,
+	  	"key": key,
+	  	"secret": secret
 	  }
 	};
 
