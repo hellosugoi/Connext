@@ -12,7 +12,7 @@ var getKey = function(email, password, callback) {
   }
 
   var options = {
-    url: "http://api.connextapi.com/key/",
+    url: "https://connextapi.com/key/",
     method: "POST",
     json: true,
     body: {

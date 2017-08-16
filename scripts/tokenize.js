@@ -7,13 +7,15 @@ var tokenize = function(key, secret, token, callback) {
   }
 
   var options = {
-    url: "http://api.connextapi.com/tokenize/",
+    url: "https://connextapi.com/tokenize/",
     method: "POST",
     json: true,
+    auth: {
+      username: key,
+      password: secret
+    },
     body: {
-      token: token,
-      key: key,
-      secret: secret
+      token: token
     }
   };
 
