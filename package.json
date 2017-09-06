@@ -2,13 +2,31 @@
   "name": "connext",
   "version": "0.2.0",
   "description": "Connext is a payment api for Ethereum applications",
-  "main": "connext.js",
+  "main": "build/node4/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "babel-build-all",
+    "lint": "snazzy && echint",
+    "pretest": "npm run lint && npm run build",
+    "test": "tap test --node-arg=--require --node-arg=babel-register",
+    "coverage": "tap test --reporter silent --coverage --nyc-arg=--require --nyc-arg=babel-register"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ConnextAPI/connext.git"
+  },
+  "files": [
+    "build",
+    "src"
+  ],
+  "standard": {
+    "ignore": [
+      "build/**"
+    ]
+  },
+  "echint": {
+    "ignore": [
+      "build/**"
+    ]
   },
   "keywords": [
     "payment",
@@ -20,14 +38,23 @@
     "connext",
     "connextAPI"
   ],
-  "author": "Arjun Bhuptani <arjunbhuptani@gmail.com>, Layne Haber <laynehaber@gmail.com> (http://connextapi.com)",
+  "author": "Rahul Sethuram, <rahul@connextapi.com>, Arjun Bhuptani <arjun@connextapi.com>, Layne Haber <layne@connextapi.com> (http://connextapi.com)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/ConnextAPI/connext/issues"
   },
   "homepage": "https://github.com/ConnextAPI/connext#readme",
+  "devDependencies": {
+    "@ahmadnassri/babel-build-all": "*",
+    "babel-plugin-add-module-exports": "*",
+    "babel-preset-env": "^1.6.0",
+    "babel-register": "*",
+    "echint": "*",
+    "snazzy": "*",
+    "tap": "*"
+  },
   "dependencies": {
-    "request": "^2.81.0",
-    "web3": "^0.19.0"
+    "axios": "^0.16.2",
+    "check-types": "^7.3.0"
   }
 }
