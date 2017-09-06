@@ -70,6 +70,7 @@ Usage:
 connext.tokenize(token).then(newToken => {
   console.log(newToken);
 })
+```
 
 ### chargeCard(token, amount, chargebackDestination, tokenContractAddress)
 
