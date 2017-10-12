@@ -13,7 +13,7 @@ export default class Connext {
     )
     this.apiKey = apiKey
     this.apiSecret = apiSecret
-    this.apiUrl = apiUrlOverride || 'https://connextapi.com/api'
+    this.apiUrl = apiUrlOverride || 'https://api.connextapi.com/'
     this.authorizedRequest = axios.create({
       auth: { username: this.apiKey, password: this.apiSecret }
     })
