@@ -1,6 +1,6 @@
 {
   "name": "connext",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Connext is a payment api for Ethereum applications",
   "main": "build/node4/index.js",
   "scripts": {
