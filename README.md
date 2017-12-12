@@ -25,7 +25,7 @@ module.exports = connext;
 
 ## Reference
 
-All of the Connext object methods return Promises. See this article for an overview on how to use them: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises.
+All of the Connext object methods return Promises. See this article for an overview on how to use them: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises. If you are using ES2017 syntax, you can use async/await for a much cleaner syntax.
 
 ### getKey(email, password) [to be deprecated soon for security reasons]
 
@@ -38,9 +38,38 @@ Retrieves your key and secret if you already have an account.
 Usage:
 
 ```
-connext.getKey(email, password).then(({ key, secret }) => {
-  console.log(key, secret);
-})
+const { key, secret } = await connext.getKey("rahul@connext.network", "s3cur3$$PW")
+console.log(key, secret);
+```
+
+### getCustomer(email)
+
+Inputs: (email)
+
+Outputs: Promise that resolves with object `{ vaultAddress, id }`
+
+Retrieves a vault address and user ID for an email address, if it exists.
+
+Usage:
+
+```
+const { vaultAddress, id } = await connext.getCustomer("rahul@connext.network")
+console.log(vaultAddress, id);
+```
+
+### createCustomer(email)
+
+Inputs: (email)
+
+Outputs: Promise that resolves with object `{ vaultAddress, id }`
+
+Creates a customer by an email address.
+
+Usage:
+
+```
+const { vaultAddress, id } = await connext.createCustomer("rahul@connext.network")
+console.log(vaultAddress, id);
 ```
 
 ### newToken()
@@ -54,9 +83,8 @@ Generates an empty token object to be filled out into a Promise. You can `consol
 Usage:
 
 ```
-connext.newToken().then(token => {
-  console.log(token); // show token parameters
-})
+const token = await connext.newToken()
+console.log(token) // show token parameters
 ```
 
 ### tokenize(token)
@@ -70,39 +98,34 @@ Sends the card info to connext servers and returns a token in a callback. The to
 Usage:
 
 ```
-connext.tokenize(token).then(newToken => {
-  console.log(newToken);
-})
+const newToken = await connext.tokenize(token)
+console.log(newToken)
 ```
 
 ### chargeCard(token, amount, chargebackDestination, tokenContractAddress)
 
-Inputs: (token, amount, chargebackDestination, tokenContractAddress)
+Inputs: (token, amount, customerEmail)
 
-Outputs: Promise that resolves with an object `{ vaultAddress }`
+Outputs: Promise that resolves with an object `{ vaultAddress, transactionId, amount }`
 
-Actually charges the card and deploys a vault contract to receive the tokens. `chargebackDestination` must be a valid Ethereum address that will be the "escape hatch" for tokens that are returned in the case of a charge reversal. `tokenContractAddress` must be a valid Ethereum address that is the ERC20 token contract for the tokens that will be sent to the vault upon settlement of the transaction. *Amount must be written as payment(in dollars)x100, as a number*. Eg: $30.10 becomes 3010. The tokenization and charge process are separated to facilitate recurring payments or a second attempt at a payment if the payment fails. The resolved Promise object contains the vault address.
+Actually charges the card and gives the address of the user's vault, where the tokens will be sent. *Amount must be written as payment(in dollars)x100, as a number*. Eg: $30.10 becomes 3010. The tokenization and charge process are separated to facilitate recurring payments or a second attempt at a payment if the payment fails. The resolved Promise object contains the vault address, the transaction ID, and the amount.
 
 ## Example usage:
 
 ```
-connext.newToken()
-  .then(token => {
-    return connext.tokenize(token);
-  })
-  .then(newToken => {
-    // add payment info here from input fields
-    // ...
-    return connext.chargeCard(newToken, 101, "0x1111111111111111", "0x1111111111111112");
-  })
-  .then(response => {
-    const { vaultAddress } = response; // destructure vault address from response
-    // send tokens to vault
-  })
-  .catch(error => {
-    // handle me
-  });
-```
+try {
+  const blankToken = await connext.newToken()
+
+  // add payment info here from input fields
+  // ...
+  const token = await connext.tokenize(token)
+
+  // destructure vault address from response
+  const { vaultAddress } = await connext.chargeCard(token, 101, "rahul@connext.network")
+  // send tokens to vault
+} catch (error) {
+  // handle the error
+}
 
 ## Error Handling
 
