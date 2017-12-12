@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ConnextAPI/connext.git"
+    "url": "git+https://github.com/ConnextProject/connext.git"
   },
   "files": [
     "build",
@@ -38,12 +38,16 @@
     "connext",
     "connextAPI"
   ],
-  "author": "Rahul Sethuram, <rahul@connextapi.com>, Arjun Bhuptani <arjun@connextapi.com>, Layne Haber <layne@connextapi.com> (http://connextapi.com)",
+  "author": "Rahul Sethuram, <rahul@connext.network>",
+  "contributors": [
+    "Arjun Bhuptani <arjun@connext.network>",
+    "Layne Haber <layne@connext.network>"
+  ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ConnextAPI/connext/issues"
+    "url": "https://github.com/ConnextProject/connext/issues"
   },
-  "homepage": "https://github.com/ConnextAPI/connext#readme",
+  "homepage": "https://github.com/ConnextProject/connext#readme",
   "devDependencies": {
     "@ahmadnassri/babel-build-all": "*",
     "babel-plugin-add-module-exports": "*",
