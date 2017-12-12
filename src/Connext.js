@@ -5,119 +5,115 @@ export default class Connext {
   constructor (apiKey, apiSecret, apiUrlOverride) {
     check.assert.string(
       apiKey,
-      'API key required. Find yours here: https://app.connextapi.com.'
+      'API key required. Find yours here: https://app.connext.network.'
     )
     check.assert.string(
       apiSecret,
-      'API secret required. Find yours here: https://app.connextapi.com.'
+      'API secret required. Find yours here: https://app.connext.network.'
     )
     this.apiKey = apiKey
     this.apiSecret = apiSecret
-    this.apiUrl = apiUrlOverride || 'https://api.connextapi.com/'
+    this.apiUrl = apiUrlOverride || 'http://api.connext.network/'
     this.authorizedRequest = axios.create({
       auth: { username: this.apiKey, password: this.apiSecret }
     })
   }
 
-  getKey (email, password) {
-    return new Promise((resolve, reject) => {
-      check.assert.string(email, 'No email provided')
-      check.assert.string(password, 'No password provided')
-
-      axios
-        .post(`${this.apiUrl}/key`, {
-          key: email,
-          secret: password
-        })
-        .then(({ data }) => {
-          resolve(data)
-        })
-        .catch(err => {
-          reject(err)
-        })
-    })
+  async getCustomer (email) {
+    check.assert.string(email, 'No email provided')
+    const response = await axios.post(`${this.apiUrl}/customer/${email}`)
+    return response.data
   }
 
-  newToken () {
-    return new Promise(resolve => {
-      const token = {
-        cardnumber: '',
-        provider: 'VISA',
-        currency: 'usd',
-        firstname: '',
-        lastname: '',
-        month: '',
-        year: '',
-        cvv: '',
-        addr1: '',
-        addr2: '',
-        zip: '',
-        country: ''
-      }
-      resolve(token)
-    })
+  async createCustomer (email) {
+    check.assert.string(email, 'No email provided')
+    const response = await axios.post(`${this.apiUrl}/customer/${email}`)
+    return response.data
   }
 
-  tokenize (token) {
+  async getKey (email, password) {
+    check.assert.string(email, 'No email provided')
+    check.assert.string(password, 'No password provided')
+    const response = await axios.post(`${this.apiUrl}/key`, {
+      key: email,
+      secret: password
+    })
+    return response.data
+  }
+
+  async newToken () {
+    const token = {
+      cardnumber: '',
+      provider: 'VISA',
+      currency: 'usd',
+      firstname: '',
+      lastname: '',
+      month: '',
+      year: '',
+      cvv: '',
+      addr1: '',
+      addr2: '',
+      zip: '',
+      country: ''
+    }
+    return token
+  }
+
+  async tokenize (token) {
     check.assert.object(token, 'Invalid token information')
-
-    return new Promise((resolve, reject) => {
-      this.authorizedRequest
-        .post(`${this.apiUrl}/tokenize`, { token })
-        .then(({ data }) => {
-          resolve(data.token)
-        })
-        .catch(err => {
-          reject(err)
-        })
-    })
+    const response = await this.authorizedRequest.post(
+      `${this.apiUrl}/tokenize`,
+      { token }
+    )
+    return response.data
   }
 
-  chargeCard (token, amount, chargebackDestination, tokenContractAddress) {
+  async chargeCard (token, amount, emailAddress) {
     check.assert.object(token, 'Check card information')
     check.assert.string(token.cvv, 'Check card information')
     check.assert.positive(amount, 'Provide valid amount')
     check.assert.string(
-      chargebackDestination,
-      'Provide valid ethereum address for chargeback destination'
-    )
-    check.assert.string(
-      tokenContractAddress,
-      'Provide valid ethereum address for token contract address'
+      emailAddress,
+      'Provide valid email address for customer'
     )
 
-    return new Promise((resolve, reject) => {
-      this.authorizedRequest
-        .post(`${this.apiUrl}/charge`, {
-          token,
-          amount,
-          chargebackDestination,
-          tokenContractAddress
-        })
-        .then(({ data }) => {
-          resolve(data)
-        })
-        .catch(err => {
-          reject(err)
-        })
-    })
+    const response = await this.authorizedRequest.post(
+      `${this.apiUrl}/charge`,
+      {
+        token,
+        amount,
+        emailAddress
+      }
+    )
+    return response.data
   }
 
-  getBalance (vaultAddress) {
+  async getEthBalance (vaultAddress) {
     check.assert.string(
       vaultAddress,
       'Provide valid ethereum address for vault address'
     )
 
-    return new Promise((resolve, reject) => {
-      this.authorizedRequest
-        .get(`${this.apiUrl}/vault/${vaultAddress}/balance`)
-        .then(({ data }) => {
-          resolve(data)
-        })
-        .catch(err => {
-          reject(err)
-        })
-    })
+    const response = await this.authorizedRequest.get(
+      `${this.apiUrl}/vault/${vaultAddress}/balance`
+    )
+    return response.data
+  }
+
+  async getTokenBalance (vaultAddress, tokenContractAddress) {
+    check.assert.string(
+      vaultAddress,
+      'Provide valid ethereum address for vault address'
+    )
+
+    check.assert.string(
+      tokenContractAddress,
+      'Provide valid ethereum address for token contract'
+    )
+
+    const response = await this.authorizedRequest.get(
+      `${this.apiUrl}/vault/${vaultAddress}/balance/${tokenContractAddress}`
+    )
+    return response.data
   }
 }
