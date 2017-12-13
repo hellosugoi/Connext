@@ -37,3 +37,4 @@ build
 nbproject
 .idea
 .node_history
+*.tgz

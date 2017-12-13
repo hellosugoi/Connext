@@ -2,13 +2,9 @@
   "name": "connext",
   "version": "2.0.0",
   "description": "Connext is a payment api for Ethereum applications",
-  "main": "build/node4/index.js",
+  "main": "build/index.js",
   "scripts": {
-    "build": "babel-build-all",
-    "lint": "snazzy && echint",
-    "pretest": "npm run lint && npm run build",
-    "test": "tap test --node-arg=--require --node-arg=babel-register",
-    "coverage": "tap test --reporter silent --coverage --nyc-arg=--require --nyc-arg=babel-register"
+    "build": "babel src --out-dir build"
   },
   "repository": {
     "type": "git",
@@ -19,11 +15,6 @@
     "src"
   ],
   "standard": {
-    "ignore": [
-      "build/**"
-    ]
-  },
-  "echint": {
     "ignore": [
       "build/**"
     ]
@@ -51,11 +42,10 @@
   "devDependencies": {
     "@ahmadnassri/babel-build-all": "*",
     "babel-plugin-add-module-exports": "*",
-    "babel-preset-env": "^1.6.0",
-    "babel-register": "*",
-    "echint": "*",
-    "snazzy": "*",
-    "tap": "*"
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-register": "*"
   },
   "dependencies": {
     "axios": "^0.16.2",
