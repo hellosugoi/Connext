@@ -21,7 +21,9 @@ export default class Connext {
 
   async getCustomer (email) {
     check.assert.string(email, 'No email provided')
-    const response = await axios.post(`${this.apiUrl}/customer/${email}`)
+    const response = await axios.post(
+      `${this.apiUrl}/customer/find?email=${email}`
+    )
     return response.data
   }
 
