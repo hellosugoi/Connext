@@ -90,6 +90,35 @@ export default class Connext {
     return response.data
   }
 
+  async chargeVenmo ({
+    amount,
+    customerEmail,
+    venmoHandle,
+    payerAddress,
+    tokenContractAddress
+  }) {
+    check.assert.positive(amount, 'Provide valid amount')
+    check.assert.string(
+      customerEmail,
+      'Provide valid email address for customer'
+    )
+    check.assert.string(venmoHandle, 'Provide valid Venmo handle for customer')
+    check.assert.string(payerAddress, 'Provide valid merchant payer address')
+    check.assert.string(
+      tokenContractAddress,
+      'Provide valid token contract address'
+    )
+
+    const response = await this.authorizedRequest.post(`${this.apiUrl}/venmo`, {
+      amount,
+      customerEmail,
+      venmoHandle,
+      payerAddress,
+      tokenContractAddress
+    })
+    return response.data
+  }
+
   async getEthBalance (vaultAddress) {
     check.assert.string(
       vaultAddress,
