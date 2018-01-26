@@ -2,7 +2,7 @@
   "name": "connext",
   "version": "2.3.0",
   "description": "Connext is a payment api for Ethereum applications",
-  "main": "build/index.js",
+  "main": "src/index.js",
   "scripts": {
     "build": "babel src --out-dir build"
   },
