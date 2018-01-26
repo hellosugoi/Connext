@@ -1,6 +1,6 @@
 {
   "name": "connext",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "description": "Connext is a payment api for Ethereum applications",
   "main": "src/index.js",
   "scripts": {
