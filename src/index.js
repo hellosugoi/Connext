@@ -1,3 +1,3 @@
-import Connext from './Connext'
+const Connext = require('./Connext')
 
 module.exports = Connext

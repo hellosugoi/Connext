@@ -1,7 +1,7 @@
-import axios from 'axios'
-import check from 'check-types'
+const axios = require('axios')
+const check = require('check-types')
 
-export default class Connext {
+module.exports = class Connext {
   constructor (apiKey, apiSecret, apiUrlOverride) {
     check.assert.string(
       apiKey,
